@@ -10,7 +10,11 @@ pipeline{
         {
             steps{
                 sh 'mvn clean package'
-                sh 'ls -R'
+            }
+            post{
+                success{
+                    archiveArtifacts artifacts: '**/target/*.jar'
+                }
             }
         }
         stage('Test')
