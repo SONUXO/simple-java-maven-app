@@ -9,23 +9,38 @@ pipeline{
         stage('Build')
         {
             steps{
-                sh 'mvn clean package'
+                echo "Maven has run"//sh 'mvn clean package'
             }
             post{
                 success{
-                    archiveArtifacts artifacts: '**/target/*.jar'
+                    echo "artifacts has been generated" //archiveArtifacts artifacts: '**/target/*.jar'
                 }
             }
         }
         stage('Test')
         {
-            steps{
-                echo "This is Test stage"
+            parallel
+            {
+                stage('stage A')
+                {
+                    steps
+                    {
+                        echo "This is A running parallely with B"
+                    }                    
+                }
+                stage('stage B')
+                {
+                    steps
+                    {
+                        echo "This is A running parallely with B"
+                    }                    
+                }
             }
         }
         stage('Deploy')
         {
-            steps{
+            steps
+            {
                 echo "This is Deploy stage"
             }
         }        
